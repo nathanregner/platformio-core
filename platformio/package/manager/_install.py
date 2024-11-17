@@ -134,6 +134,7 @@ class PackageManagerInstallMixin:
     def install_dependencies(self, pkg, print_header=True):
         assert isinstance(pkg, PackageItem)
         dependencies = self.get_pkg_dependencies(pkg)
+        print('dependencies', dependencies)
         if not dependencies:
             return
         if print_header:
@@ -201,7 +202,10 @@ class PackageManagerInstallMixin:
                 ),
             )
             pkg_item.dump_meta()
-            return self._install_tmp_pkg(pkg_item)
+            print('temp_pkg',pkg_item)
+            final = self._install_tmp_pkg(pkg_item)
+            print('final_pkg',final)
+            return final
         finally:
             if os.path.isdir(tmp_dir):
                 try:
@@ -224,6 +228,7 @@ class PackageManagerInstallMixin:
                     tmp_pkg.metadata,
                 )
             )
+        print('package_dir', self.package_dir)
         dst_pkg = PackageItem(
             os.path.join(self.package_dir, tmp_pkg.get_safe_dirname())
         )

@@ -228,6 +228,7 @@ def _install_project_env_libraries(project_env, options):
             else None
         ),
     )
+    print('env_lm',env_lm.package_dir)
     private_lm = LibraryPackageManager(
         os.path.join(config.get("platformio", "lib_dir"))
     )

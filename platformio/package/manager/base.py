@@ -261,12 +261,20 @@ class BasePackageManager(  # pylint: disable=too-many-public-methods,too-many-in
         if isinstance(spec, PackageItem):
             return spec
         spec = self.ensure_spec(spec)
+        if spec.owner == 'askuric':
+            print('Checking: ', spec)
         best = None
         for pkg in self.get_installed():
+            if spec.owner == 'askuric':
+                print('Installed: ', spec, pkg)
             if not self.test_pkg_spec(pkg, spec):
+                if spec.owner == 'askuric':
+                    print('Failed test: ',  pkg)
                 continue
             assert isinstance(pkg.metadata.version, semantic_version.Version)
             if spec.requirements and pkg.metadata.version not in spec.requirements:
+                if spec.owner == 'askuric':
+                    print('Failed version: ',  pkg)
                 continue
             if not best or (pkg.metadata.version > best.metadata.version):
                 best = pkg
